@@ -29,36 +29,37 @@ text_label.pack()
 
 def index_last_OrderID():
     from influxdb_client import InfluxDBClient
+    try:
+        # 配置
+        influx_con = set_connect()
+        # token = "2xE_ttHl9rzs0p19VzPwFdnsbVMp-jZwi7W4SKNTyiZXWvmFOPPN-wD9ZpvrLKsKC4YxooBN4o949ZFC6a70PQ=="
+        token = influx_con.influxdb_token("custom")
+        org = influx_con.influxdb_org
+        url = influx_con.influxdb_url
+        bucket = influx_con.influxdb_bucket
 
-    # 配置
-    influx_con = set_connect()
-    # token = "2xE_ttHl9rzs0p19VzPwFdnsbVMp-jZwi7W4SKNTyiZXWvmFOPPN-wD9ZpvrLKsKC4YxooBN4o949ZFC6a70PQ=="
-    token = influx_con.influxdb_token("custom")
-    org = influx_con.influxdb_org
-    url = influx_con.influxdb_url
-    bucket = influx_con.influxdb_bucket
+        # 创建 InfluxDB 客户端
+        client = InfluxDBClient(url=url, token=token, org=org)
+        query_api = client.query_api()
 
-    # 创建 InfluxDB 客户端
-    client = InfluxDBClient(url=url, token=token, org=org)
-    query_api = client.query_api()
-
-    query = f'''
-    from(bucket: "{bucket}")
-      |> range(start: -30d)
-      |> filter(fn: (r) => r["_measurement"] == "test01")
-      |> filter(fn: (r) => r["_field"] == "Order_ID")
-      |> last()  // 獲取最新一筆資料
-      |> yield(name: "mean")
-    '''
-    
-    # 执行查询
-    result = query_api.query(org=org, query=query)
-    for table in result:
-        for record in table.records:
-            value = record.get_value()
-    client.close() # 关闭客户端
-    return value
-
+        query = f'''
+        from(bucket: "{bucket}")
+        |> range(start: -30d)
+        |> filter(fn: (r) => r["_measurement"] == "test01")
+        |> filter(fn: (r) => r["_field"] == "Order_ID")
+        |> last()  // 獲取最新一筆資料
+        |> yield(name: "mean")
+        '''
+        
+        # 执行查询
+        result = query_api.query(org=org, query=query)
+        for table in result:
+            for record in table.records:
+                value = record.get_value()
+        client.close() # 关闭客户端
+        return value
+    except:
+        return 0  # 如果influxdb報錯代表沒有Order_ID那就從1開始
 
 # 創建按鈕
 def on_button_click():
