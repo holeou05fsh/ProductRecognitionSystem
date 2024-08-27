@@ -1,0 +1,26 @@
+conda create -n qqq python=3.9
+conda activate qqq
+conda install pytorch==2.3.0 torchvision==0.18.0 torchaudio==2.3.0 pytorch-cuda=12.1 -c pytorch -c nvidia
+pip install ultralytics
+pip uninstall ultralytics
+pip install -e .
+yolo detect predict model=runs/detect/train4/weights/best.pt source=./BVN.mp4 show=True
+
+
+
+
+ultralytics\assets\bus.jpg
+
+yolo predict model=yolov8n.pt source=ultralytics\assets\bus.jpg
+
+yolo task=detect mode=train model=./yolov8n.pt data=yolo-bvn.yaml epochs=30 workers=1 batch=16
+
+
+
+
+yolo cfg-default_copy.yaml
+-> 影片18:59處 https://www.bilibili.com/video/BV1j24y1577q/?spm_id_from=333.788&vd_source=425be1baf7c8710e42d776257ef1d0a7
+\ultralytics\utils\__init__.py 代碼988-990有修改
+
+
+influxd --http-bind-address :9999

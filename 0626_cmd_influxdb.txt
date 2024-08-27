@@ -1,0 +1,21 @@
+1. cd C:\Users\user.IM2-PC04_T\Download\influxdb2-2.7.4-windows>
+influxd
+
+2. Open http://localhost:8086/
+->user100
+->1qaz2wsx 1qaz2wsx
+->org100
+->bucket100
+Quick Start
+ 
+->Load Data 
+-> API Tokens 
+-> GENERATE API TOKEN (Generate a Custom API Token)
+-> Buckets (bucket100)(Read, Write)
+-> COPY TO CLIPBOARD
+
+3. 設定通行證(Token)
+本機 -> 內容 -> 進階系統設定 -> 環境變數 -> 系統變數(新增)
+INFLUXDB_TOKEN
+tZ3E4rF5OAt29vm3_wqWP4vPsYbvjSjBxnut1HmmFe4ALqFoWDvFJ9BpSFZeBnkmV0kpjhNPa20DFSfKh5OTxw==
+ 

@@ -1,0 +1,9 @@
+influxd --http-bind-address :9999
+
+
+org_test = "org100"
+url = "http://localhost:9999"
+bucket_test="bucket100"
+
+
+

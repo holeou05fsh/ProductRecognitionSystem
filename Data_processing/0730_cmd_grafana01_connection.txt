@@ -1,0 +1,33 @@
+1. (請注意要在管理者指令視窗下安裝)
+Download and install grafana (https://grafana.com/grafana/download?platform=windows)
+ 
+2. 
+本機(computer)-> 管理(management) ->服務(service)->啟動(start)
+ 
+3.
+http://localhost:3000
+admin/admin
+(第一次登入grafana一定要變更密碼)
+ 
+4. 設定資料庫連線
+首頁 -> Data source -> InfluxDB 
+(1)連線名稱: InfluxDB_qqq
+(2) Query Language: Flux
+(3) HTTP URL:  http://localhost:8086
+InfluxDB Details
+(4) Organization: org100
+(5) Token: jnEsf0GpcPWFCldTbHiuFgxo3IBVAsdApCkgS42uqAXrB6Mu4YHRfGN104eyxFsrcXGRBkhSp2ug-0TH6bFL5A==
+(6) Default Bucket: bucket100
+ 
+5. 將InfluxDB的資料匯入Grafana
+(1) Add Dashboard (新增儀表板)
+(2) Add Visualization (新增視覺環境)(或新增面板Panel) - Edit (修改) Remove(移除)
+選取連線 InfluxDB_qqq (Sample query -> Simple query)
+from(bucket: "bucket100")
+  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)
+  |> filter(fn: (r) =>
+    r._measurement == "ctu_measurement01" and
+    r._field == "ctu_temperature"
+  )
+ 
+Save & Test
